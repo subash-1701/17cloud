@@ -1,0 +1,826 @@
+/* Remove blue tap highlight (mobile) */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+/* 🌌 Background */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f172a, #020617);
+  color: #fff;
+}
+
+/* 🔝 Header */
+header {
+  padding: 18px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* 📦 Container */
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* 🔐 PIN SCREEN */
+.pin-screen {content://com.android.externalstorage.documents/tree/primary%3ADownload%2Fproject::primary:Download/project/public/style.css
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #020617, #0f172a);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#pinInput {
+  width: 200px;
+  padding: 10px;
+  font-size: 18px;
+  border-radius: 10px;
+  border: 1px solid gray;
+}
+
+
+input:focus {
+  border-color: green;
+  outline: none; /* removes default blue outline */
+}
+#pinScreen button {
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 10px;
+}
+
+#pinScreen h2 {
+  font-size: 24px;
+}
+
+/* 🧊 Glass box */
+.upload-box {
+  background: rgba(255,255,255,0.05);
+  padding: 20px;
+  border-radius: 16px;
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255,255,255,0.1);
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* 📁 File button */
+.file-label {
+  display: inline-block;
+  padding: 12px 20px;
+  background: linear-gradient(45deg, #3b82f6, #6366f1);
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.file-label:hover {
+  transform: scale(1.05);
+}
+
+input[type="file"] {
+  display: none;
+}
+
+/* 🔘 Buttons 
+
+button:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+*/
+/* ===== VIEWER BUTTON EFFECTS ===== */
+button {
+  margin-top: 10px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(45deg, #22c55e, #16a34a);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button.active {
+  background: #3b82f6;
+}
+
+
+#bottomBar button {
+  background: rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 10px;
+  transition: all 0.2s ease;
+}
+
+/* 🔥 hover effect */
+#bottomBar button:hover {
+  background: rgba(255,255,255,0.18);
+  transform: translateY(-5px) scale(1.05);
+}
+
+/* 👇 click / press effect */
+#bottomBar button:active {
+  transform: scale(0.92);
+  background: rgba(255,255,255,0.25);
+}
+
+/* ✨ icon size better */
+#bottomBar button {
+  font-size: 18px;
+}
+
+/* 🌈 individual colors (optional premium look) */
+#bottomBar button:nth-child(1):hover { color: #60a5fa; } /* share */
+#bottomBar button:nth-child(2):hover { color: #34d399; } /* download */
+#bottomBar button:nth-child(3):hover { color: #f87171; } /* delete */
+#bottomBar button:nth-child(4):hover { color: #fbbf24; } /* close */
+
+/* 📊 Progress */
+progress {
+  width: 100%;
+  margin-top: 10px;
+  height: 10px;
+  border-radius: 10px;
+}
+
+/* ===== PERFECT UNIFORM GRID ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+/* ===== CARD ===== */
+.card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;   /* 🔥 makes perfect square */
+  background: #141e33;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* ===== MEDIA (IMG + VIDEO) ===== */
+.square-img,
+.card video,
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;     /* 🔥 fills square nicely */
+  display: block;
+}
+
+/* ===== FILE TEXT (OTHER FILES) ===== */
+.file-text {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px;
+  font-size: 13px;
+  opacity: 0.8;
+  word-break: break-word;
+}
+
+/* ===== HOVER EFFECT ===== */
+.card:hover {
+  transform: scale(1.03);
+}
+
+/* 📱 Tablet */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 📱 Mobile */
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+/* 🌑 FULLSCREEN VIEWER */
+#viewer {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+#viewer img {
+  max-width: 95%;
+  max-height: 90%;
+  width: auto;
+  height: auto;
+  object-fit: contain;   /* IMPORTANT */
+}
+
+/* ❌ close button */
+#closeBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: red;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+}
+
+/* 🔘 Make all buttons same size */
+.card button {
+  width: 100%;
+  margin-top: 6px;
+}
+
+/* 📥 Fix download button (inside <a>) */
+.card a {
+  width: 100%;
+  text-decoration: none;
+}
+
+.card a button {
+  width: 100%;
+}
+
+/* 🧱 Optional: keep buttons at bottom */
+.card {
+  justify-content: space-between;
+}
+
+.card:hover {
+  transform: translateY(-5px) scale(1.02);
+}
+
+/* ⋮ menu */
+.menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 35px;
+  width: 140px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  z-index: 999;
+}
+
+.menu-item {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  text-align: left;
+
+  background: transparent;
+  border: none;
+
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 14px;
+
+  transition: 0.2s;
+}
+
+.menu-item:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+.menu span {
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* dropdown */
+.dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 25px;
+  background: #1f2937;
+  border-radius: 10px;
+  padding: 6px;
+  min-width: 140px;
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: none;
+  border: none;
+  color: white;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 8px;
+  font-weight: normal;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.dropdown-item:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* card fix */
+.card {
+  position: relative;
+  cursor: pointer;
+}
+
+/* 🖼️ Media */
+img, iframe {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  user-select: none;
+}
+
+/* 🔘 File buttons */
+.open-btn {
+  linear-gradient(45deg, #22c55e, #16a34a);
+  background: 
+  margin-top: 5px;
+}
+
+.download-btn {
+  background: linear-gradient(45deg, #3b82f6, #2563eb);
+  margin-top: 5px;
+}
+
+.delete-btn {
+  background: linear-gradient(45deg, #ef4444, #dc2626);
+  margin-top: 5px;
+}
+
+/* 📄 File text */
+.card div {
+  font-size: 13px;
+  word-break: break-word;
+  opacity: 0.9;
+}
+
+.dropdown a,
+.dropdown button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: none;
+  border: none;
+  color: white;
+  text-align: left;
+  cursor: pointer;
+
+  /* ✅ your changes */
+  border-radius: 8px;
+  font-weight: normal;   /* ❌ remove bold */
+}
+
+#viewer {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 99999;
+}
+
+#viewer img {
+  max-width: 90%;
+  max-height: 80%;
+  border-radius: 10px;
+}
+
+/* bottom actions */
+#bottomBar {
+  position: absolute;
+  bottom: 20px;
+  display: flex;
+  gap: 10px;
+
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
+  padding: 10px;
+  border-radius: 12px;
+}
+
+#bottomBar button {
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* ================= LOGIN UI FIX + CLEAN ================= */
+
+/* FIX: your class was wrong (.pin-screen) → using #pinScreen */
+#pinScreen {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top, #1e293b, #020617);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* glass login box */
+#pinScreen form {
+  background: rgba(255,255,255,0.05);
+  padding: 30px 25px;
+  border-radius: 20px;
+  backdrop-filter: blur(25px);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  width: 280px;
+  text-align: center;
+}
+
+/* title */
+#pinScreen h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* inputs */
+#pinScreen input {
+  width: 90%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
+  color: white;
+  font-size: 14px;
+  outline: none;
+  transition: 0.3s;
+}
+
+/* placeholder */
+#pinScreen input::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+
+/* focus */
+#pinScreen input:focus {
+  border-color: #3b82f6;
+  background: rgba(255,255,255,0.08);
+}
+
+/* login button */
+#pinScreen button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  background: linear-gradient(45deg, #3b82f6, #6366f1);
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#pinScreen button:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* error text */
+#error {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #f87171;
+}
+
+/* ===== FILE ICON BOX ===== */
+.file-box {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  text-align: center;
+}
+
+/* 🔥 BIG ICON */
+.file-icon {
+  font-size: 40px;
+  margin-bottom: 8px;
+}
+
+/* 📄 FILE NAME */
+.file-name {
+  font-size: 12px;
+  opacity: 0.8;
+  word-break: break-word;
+}
+
+/* ===== FILTER GRID ===== */
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* ===== CARD STYLE ===== */
+.filter-card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(15px);
+  border-radius: 16px;
+  padding: 5px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+}
+
+/* ICON */
+.filter-card .icon {
+  font-size: 20px;
+  margin-bottom: 6px;
+}
+
+/* TEXT */
+.filter-card p {
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+/* HOVER EFFECT */
+.filter-card:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+}
+
+/* ACTIVE GLOW (optional) */
+.filter-card.active {
+  border: 1px solid #3b82f6;
+  box-shadow: 0 0 15px rgba(59,130,246,0.7);
+}
+
+/* TRASH SPECIAL COLOR */
+.filter-card.trash:hover {
+  border: 1px solid #ef4444;
+  box-shadow: 0 0 15px rgba(239,68,68,0.6);
+}
+
+/* MOBILE */
+@media (max-width: 500px) {
+  .filter-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ================= SIGNUP UI ================= */
+
+#signupPage {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top, #1e293b, #020617);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* glass box same as login */
+#signupPage form {
+  background: rgba(255,255,255,0.05);
+  padding: 30px 25px;
+  border-radius: 20px;
+  backdrop-filter: blur(25px);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  width: 280px;
+  text-align: center;
+}
+
+/* title */
+#signupPage h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* inputs */
+#signupPage input {
+  width: 90%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
+  color: white;
+  font-size: 14px;
+  outline: none;
+  transition: 0.3s;
+}
+
+/* focus */
+#signupPage input:focus {
+  border-color: #22c55e;
+  background: rgba(255,255,255,0.08);
+}
+
+/* button */
+#signupPage button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  background: linear-gradient(45deg, #22c55e, #16a34a);
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#signupPage button:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* links */
+#signupPage a,
+#pinScreen a {
+  font-size: 13px;
+  opacity: 0.8;
+  text-decoration: none;
+}
+
+#signupPage a:hover,
+#pinScreen a:hover {
+  opacity: 1;
+}
+
+/* ==== STEPPER FORM===== */
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+#stepIndicator {
+  color: #3b82f6;
+  margin-bottom: 10px;
+}
+
+.step-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 20px;
+}
+.final-step {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 20px;
+}
+.step-buttons a {
+  text-decoration: none;
+  color: #3b82f6;
+  font-weight: bold;
+}
+
+.final-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* only back button moves down */
+.final-back-btn {
+  margin-top: 10px;
+  text-decoration: none;
+  color: #3b82f6;
+  font-weight: bold;
+}
+
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #444;
+  border-top: 4px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+
+/*========= GENDER GLOW EFFECT=========*/
+.select-box {
+  position: relative;
+  width: 100%;
+}
+
+/* main select */
+.select-box select {
+  width: 100%;
+  padding: 12px 40px 12px 12px;
+  border-radius: 10px;
+
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+
+  border: 1px solid rgba(255,255,255,0.15);
+  outline: none;
+
+  appearance: none; /* remove default arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+/* focus glow */
+.select-box select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 10px rgba(59,130,246,0.5);
+}
+
+/* custom arrow */
+.select-box::after {
+  content: "⌄";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+  pointer-events: none;
+  font-size: 14px;
+}
+
+/* dropdown options (limited styling) */
+select option {
+  background: #111;
+  color: #fff;
+}
+
+.dob-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 15px;
+}
+
+.dob-box label {
+  font-size: 13px;
+  color: #aaa;
+}
+
+.dob-box input {
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+  outline: none;
+  transition: 0.3s;
+}
+
+.dob-box input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 8px rgba(59,130,246,0.4);
+}
+

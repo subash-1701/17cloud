@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>17Cloud</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- 🔐 LOGIN SCREEN -->
+<div id="pinScreen" style="
+  position:fixed;
+  inset:0;
+  background:#0b1220;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+">
+
+<form onsubmit="event.preventDefault(); login();">
+
+  <h2>17Cloud</h2>
+
+  <input id="usernameInput"
+    type="text"
+    placeholder="Username"
+    required
+    oninput="this.value = this.value.toLowerCase().replace(/[^a-z0-9-]/g,'')"
+    onblur="this.value = this.value.trim()"
+  ><br><br>
+
+  <input id="passwordInput"
+    type="password"
+    placeholder="Password"
+    required
+  ><br><br>
+
+  <button type="submit">Login</button>
+
+  <br><br>
+
+  <a href="#" onclick="openSignup()" style="color:#3b82f6;">
+    Create New Account
+  </a>
+
+</form>
+
+<p id="error" style="color:red;"></p>
+</div>
+
+
+<!-- 🆕 SIGNUP SCREEN -->
+<div id="signupPage" style="
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#0b1220;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+">
+
+<form onsubmit="event.preventDefault(); signup();">
+
+  <h2>Create Account</h2>
+  <div id="stepIndicator">Step 1 / 4</div>
+
+  <!-- STEP 1 -->
+  <div class="step" id="step1">
+  <input id="firstName" placeholder="First Name" required>
+  <input id="lastName" placeholder="Last Name" required>
+
+  <div class="step-buttons">
+    <a href="#" onclick="backToLogin()">⬅ Back</a>
+    <a href="#" onclick="nextStep(event)">Next ➜</a>
+  </div>
+</div>
+
+<!-- STEP 2 -->
+<div class="step" id="step2" style="display:none;">
+  <input id="email" type="email" placeholder="Email Address" required>
+  <input type="tel" id="phone" placeholder="Phone Number(option)">
+
+  <div class="step-buttons">
+    <a href="#" onclick="prevStep(event)">⬅ Back</a>
+    <a href="#" onclick="nextStep(event)">Next ➜</a>
+  </div>
+</div>
+
+<!-- STEP 3 -->
+<div class="step" id="step3" style="display:none;">
+  
+  <div class="dob-box">
+    <label for="dob">Date of Birth</label>
+    <input id="dob" type="date" required>
+</div>
+
+  <div class="select-box">
+    <select id="gender" required>
+      <option value="">Select Gender</option>
+      <option>Male</option>
+      <option>Female</option>
+      <option>Other</option>
+    </select>
+  </div>
+
+  <div class="step-buttons">
+    <a href="#" onclick="prevStep(event)">⬅ Back</a>
+    <a href="#" onclick="nextStep(event)">Next ➜</a>
+  </div>
+</div>
+
+<!-- STEP 4 -->
+<div class="step" id="step4" style="display:none;">
+  <input id="signupUser"
+    placeholder="Username"
+    required
+    oninput="this.value = this.value.toLowerCase().replace(/[^a-z0-9-]/g,''); checkUsername()">
+
+  <small id="userCheckText"></small>
+
+  <div class="step-buttons">
+    <a href="#" onclick="prevStep(event)">⬅ Back</a>
+    <a href="#" onclick="nextStep(event)">Next ➜</a>
+  </div>
+</div>
+
+<!-- STEP 5 -->
+<div class="step" id="step5" style="display:none;">
+  <input id="signupPass" type="password" placeholder="Password" required oninput="checkPassword()">
+  <small id="passHint"></small>
+
+  <input id="confirmPass" type="password" placeholder="Confirm Password" required oninput="checkConfirmPassword()">
+  <small id="confirmHint"></small>
+
+  <div class="step-buttons final-step">
+    <button type="button" onclick="signup()">Create Account</button>
+    <a href="#" onclick="prevStep(event)">⬅ Back</a>
+  </div>
+</div>
+
+</form>
+
+</div>
+
+
+<!-- 🌐 MAIN APP -->
+<div id="mainApp" style="display:none;">
+  
+  <header>☁️ 17Cloud</header>
+  
+  <!-- 🔥 FULL SCREEN PROGRESS -->
+<div id="uploadLoader" style="
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.85);
+  z-index:99999;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  color:white;
+">
+  <div id="bigPercent" style="
+    font-size:48px;
+    font-weight:bold;
+    margin-bottom:10px;
+  ">0%</div>
+
+  <div style="opacity:0.7;">Uploading...</div>
+</div>
+
+  <div class="container">
+
+    <div class="upload-box" id="dropArea">
+      <h3>Upload Files</h3>
+
+      <label class="file-label">
+        📤 Tap to Upload
+        <input type="file" id="fileInput" multiple>
+      </label>
+
+      <p style="font-size:12px; opacity:0.7; margin-top:10px;">
+        Drag & Drop files here or click choose files
+      </p>
+    </div>
+
+    <h3 style="margin-top:20px;">Your Files</h3>
+    
+    
+    <div class="filter-grid">
+
+      <div class="filter-card" onclick="setFilter('all')">
+        <div class="icon">📁</div>
+      </div>
+
+      <div class="filter-card" onclick="setFilter('image')">
+        <div class="icon">🖼</div>
+      </div>
+
+      <div class="filter-card" onclick="setFilter('video')">
+        <div class="icon">🎥</div>
+      </div>
+
+      <div class="filter-card trash" onclick="setFilter('trash')">
+        <div class="icon">🗑</div>
+      </div>
+
+    </div>
+    
+    <div class="grid" id="grid"></div>
+
+  </div>
+</div>
+
+
+<!-- 👁 VIEWER -->
+<div id="viewer" onclick="closeViewer()" style="
+  display:none;
+  position:fixed;
+  inset:0;
+  background:black;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+">
+
+  <div id="viewerContent"></div>
+
+  <div id="bottomBar" onclick="event.stopPropagation()">
+    <button onclick="shareFile()">🔗</button>
+    <button onclick="downloadFile()">📥</button>
+    <button onclick="deleteFile()">🗑</button>
+    <button onclick="closeViewer()">❌</button>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
